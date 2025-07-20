@@ -340,8 +340,221 @@ function App() {
             </div>
           )}
 
+          {/* Human Resources Module */}
+          {activeModule === 'hr' && (
+            <div className="space-y-6">
+              {/* HR Overview Cards */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="bg-gradient-to-br from-purple-500 to-purple-600 p-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 cursor-pointer">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="p-3 bg-white/20 rounded-xl backdrop-blur-sm">
+                      <Users className="w-6 h-6 text-white" />
+                    </div>
+                    <div className="flex items-center space-x-1 text-white">
+                      <TrendingUp className="w-4 h-4" />
+                      <span className="text-sm font-medium">+5.7%</span>
+                    </div>
+                  </div>
+                  <div>
+                    <h3 className="text-white/80 text-sm font-medium mb-1">Total Employees</h3>
+                    <p className="text-3xl font-bold text-white">324</p>
+                  </div>
+                </div>
+
+                <div className="bg-gradient-to-br from-emerald-500 to-emerald-600 p-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 cursor-pointer">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="p-3 bg-white/20 rounded-xl backdrop-blur-sm">
+                      <UserCheck className="w-6 h-6 text-white" />
+                    </div>
+                    <div className="flex items-center space-x-1 text-white">
+                      <TrendingUp className="w-4 h-4" />
+                      <span className="text-sm font-medium">+2.1%</span>
+                    </div>
+                  </div>
+                  <div>
+                    <h3 className="text-white/80 text-sm font-medium mb-1">Present Today</h3>
+                    <p className="text-3xl font-bold text-white">298</p>
+                  </div>
+                </div>
+
+                <div className="bg-gradient-to-br from-amber-500 to-orange-500 p-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 cursor-pointer">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="p-3 bg-white/20 rounded-xl backdrop-blur-sm">
+                      <Clock className="w-6 h-6 text-white" />
+                    </div>
+                    <div className="flex items-center space-x-1 text-white">
+                      <TrendingUp className="w-4 h-4 rotate-180" />
+                      <span className="text-sm font-medium">-1.2%</span>
+                    </div>
+                  </div>
+                  <div>
+                    <h3 className="text-white/80 text-sm font-medium mb-1">On Leave</h3>
+                    <p className="text-3xl font-bold text-white">26</p>
+                  </div>
+                </div>
+
+                <div className="bg-gradient-to-br from-pink-500 to-rose-500 p-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 cursor-pointer">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="p-3 bg-white/20 rounded-xl backdrop-blur-sm">
+                      <Award className="w-6 h-6 text-white" />
+                    </div>
+                    <div className="flex items-center space-x-1 text-white">
+                      <TrendingUp className="w-4 h-4" />
+                      <span className="text-sm font-medium">+8.3%</span>
+                    </div>
+                  </div>
+                  <div>
+                    <h3 className="text-white/80 text-sm font-medium mb-1">New Hires</h3>
+                    <p className="text-3xl font-bold text-white">12</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* HR Actions and Employee List */}
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* Employee Directory */}
+                <div className="lg:col-span-2 gradient-card p-6 rounded-2xl">
+                  <div className="flex items-center justify-between mb-6">
+                    <h3 className="text-xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">Employee Directory</h3>
+                    <div className="flex space-x-2">
+                      <button className="p-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg hover:shadow-lg transition-all duration-200 hover:scale-105">
+                        <Filter className="w-4 h-4" />
+                      </button>
+                      <button className="p-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-lg hover:shadow-lg transition-all duration-200 hover:scale-105">
+                        <Plus className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-4">
+                    {[
+                      { name: 'Sarah Johnson', role: 'Senior Developer', department: 'Engineering', status: 'Present', avatar: 'SJ', color: 'from-blue-500 to-blue-600' },
+                      { name: 'Michael Chen', role: 'Product Manager', department: 'Product', status: 'Present', avatar: 'MC', color: 'from-emerald-500 to-emerald-600' },
+                      { name: 'Emily Rodriguez', role: 'UX Designer', department: 'Design', status: 'On Leave', avatar: 'ER', color: 'from-purple-500 to-purple-600' },
+                      { name: 'David Kim', role: 'Data Analyst', department: 'Analytics', status: 'Present', avatar: 'DK', color: 'from-amber-500 to-orange-500' },
+                      { name: 'Lisa Thompson', role: 'HR Manager', department: 'Human Resources', status: 'Present', avatar: 'LT', color: 'from-pink-500 to-rose-500' },
+                      { name: 'James Wilson', role: 'Sales Director', department: 'Sales', status: 'Remote', avatar: 'JW', color: 'from-cyan-500 to-blue-500' },
+                    ].map((employee, index) => (
+                      <div key={index} className="activity-item p-4 rounded-xl hover:shadow-lg transition-all duration-200">
+                        <div className="flex items-center space-x-4">
+                          <div className={`w-12 h-12 bg-gradient-to-br ${employee.color} rounded-xl flex items-center justify-center text-white font-bold shadow-lg`}>
+                            {employee.avatar}
+                          </div>
+                          <div className="flex-1">
+                            <h4 className="font-semibold text-gray-800">{employee.name}</h4>
+                            <p className="text-sm text-gray-600">{employee.role} • {employee.department}</p>
+                          </div>
+                          <div className="text-right">
+                            <span className={`px-3 py-1 rounded-full text-xs font-medium shadow-lg ${
+                              employee.status === 'Present' ? 'bg-gradient-to-r from-emerald-400 to-emerald-500 text-white' :
+                              employee.status === 'On Leave' ? 'bg-gradient-to-r from-amber-400 to-orange-500 text-white' :
+                              'bg-gradient-to-r from-blue-400 to-blue-500 text-white'
+                            }`}>
+                              {employee.status}
+                            </span>
+                            <div className="flex items-center space-x-2 mt-2">
+                              <button className="p-1 text-gray-400 hover:text-blue-600 transition-colors">
+                                <Mail className="w-4 h-4" />
+                              </button>
+                              <button className="p-1 text-gray-400 hover:text-green-600 transition-colors">
+                                <Phone className="w-4 h-4" />
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* HR Quick Actions */}
+                <div className="space-y-6">
+                  <div className="gradient-card p-6 rounded-2xl">
+                    <h3 className="text-xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent mb-6">Quick Actions</h3>
+                    <div className="space-y-3">
+                      {[
+                        { name: 'Add Employee', icon: Users, color: 'from-blue-500 to-purple-600' },
+                        { name: 'Process Payroll', icon: DollarSign, color: 'from-emerald-500 to-teal-600' },
+                        { name: 'Schedule Interview', icon: Calendar, color: 'from-amber-500 to-orange-600' },
+                        { name: 'Generate Report', icon: BarChart3, color: 'from-pink-500 to-rose-600' },
+                      ].map((action, index) => {
+                        const Icon = action.icon;
+                        return (
+                          <button
+                            key={index}
+                            className={`w-full flex items-center space-x-3 p-4 bg-gradient-to-r ${action.color} text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105`}
+                          >
+                            <Icon className="w-5 h-5" />
+                            <span className="font-medium">{action.name}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Department Overview */}
+                  <div className="gradient-card p-6 rounded-2xl">
+                    <h3 className="text-xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent mb-6">Departments</h3>
+                    <div className="space-y-4">
+                      {[
+                        { name: 'Engineering', count: 89, color: 'from-blue-400 to-blue-500' },
+                        { name: 'Sales', count: 67, color: 'from-emerald-400 to-emerald-500' },
+                        { name: 'Marketing', count: 45, color: 'from-purple-400 to-purple-500' },
+                        { name: 'HR', count: 23, color: 'from-pink-400 to-rose-500' },
+                        { name: 'Finance', count: 34, color: 'from-amber-400 to-orange-500' },
+                      ].map((dept, index) => (
+                        <div key={index} className="activity-item p-4 rounded-xl">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center space-x-3">
+                              <div className={`w-3 h-3 rounded-full bg-gradient-to-r ${dept.color} shadow-lg`} />
+                              <span className="font-medium text-gray-800">{dept.name}</span>
+                            </div>
+                            <span className={`px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r ${dept.color} text-white shadow-lg`}>
+                              {dept.count}
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Recent HR Activities */}
+              <div className="gradient-card p-6 rounded-2xl">
+                <h3 className="text-xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent mb-6">Recent HR Activities</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {[
+                    { title: 'New Employee Onboarding', description: 'Sarah Johnson completed orientation', time: '2 hours ago', icon: Users, color: 'text-blue-600' },
+                    { title: 'Leave Request Approved', description: 'Michael Chen - Vacation leave approved', time: '4 hours ago', icon: CheckCircle, color: 'text-emerald-600' },
+                    { title: 'Performance Review', description: 'Q4 reviews scheduled for next week', time: '1 day ago', icon: Award, color: 'text-purple-600' },
+                    { title: 'Payroll Processed', description: 'December payroll completed successfully', time: '2 days ago', icon: DollarSign, color: 'text-amber-600' },
+                    { title: 'Training Session', description: 'Leadership training session conducted', time: '3 days ago', icon: Target, color: 'text-pink-600' },
+                    { title: 'Policy Update', description: 'Remote work policy updated', time: '1 week ago', icon: Globe, color: 'text-cyan-600' },
+                  ].map((activity, index) => {
+                    const Icon = activity.icon;
+                    return (
+                      <div key={index} className="activity-item p-4 rounded-xl hover:shadow-lg transition-all duration-200">
+                        <div className="flex items-start space-x-3">
+                          <div className={`p-2 rounded-lg bg-gradient-to-br from-gray-100 to-gray-200 ${activity.color}`}>
+                            <Icon className="w-4 h-4" />
+                          </div>
+                          <div className="flex-1">
+                            <h4 className="font-medium text-gray-800 mb-1">{activity.title}</h4>
+                            <p className="text-sm text-gray-600 mb-2">{activity.description}</p>
+                            <p className="text-xs text-gray-500">{activity.time}</p>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Other Module Placeholders */}
-          {activeModule !== 'dashboard' && (
+          {activeModule !== 'dashboard' && activeModule !== 'hr' && (
             <div className="gradient-card p-8 rounded-2xl text-center">
               <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl">
                 {React.createElement(modules.find(m => m.id === activeModule)?.icon || LayoutDashboard, {
