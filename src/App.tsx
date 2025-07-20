@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react';
 import { 
   LayoutDashboard, 
   DollarSign, 
@@ -8,374 +8,359 @@ import {
   Truck, 
   Factory, 
   UserCheck, 
-  FolderKanban, 
-  BarChart3, 
+  FolderOpen, 
+  BarChart3,
   Settings,
-  Bell,
   Search,
+  Bell,
+  User,
   Menu,
-  ChevronDown,
-  Plus,
-  Filter,
-  Download,
+  X,
   TrendingUp,
-  TrendingDown,
   Activity,
+  Clock,
+  CheckCircle,
+  AlertCircle,
+  Plus,
+  Download,
+  Upload,
+  Filter,
   Calendar,
-  Clock
-} from 'lucide-react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './components/ui/card'
-import { Button } from './components/ui/button'
-import { Input } from './components/ui/input'
-import { Badge } from './components/ui/badge'
-import { Avatar, AvatarFallback, AvatarImage } from './components/ui/avatar'
-import { Separator } from './components/ui/separator'
-import { Progress } from './components/ui/progress'
+  Mail,
+  Phone,
+  Globe,
+  Zap,
+  Target,
+  Award,
+  Briefcase
+} from 'lucide-react';
 
 const modules = [
-  { id: 'dashboard', name: 'Dashboard', icon: LayoutDashboard, color: 'text-blue-600' },
-  { id: 'finance', name: 'Finance', icon: DollarSign, color: 'text-green-600' },
-  { id: 'hr', name: 'Human Resources', icon: Users, color: 'text-purple-600' },
-  { id: 'inventory', name: 'Inventory', icon: Package, color: 'text-orange-600' },
-  { id: 'sales', name: 'Sales', icon: ShoppingCart, color: 'text-pink-600' },
-  { id: 'procurement', name: 'Procurement', icon: Truck, color: 'text-indigo-600' },
-  { id: 'manufacturing', name: 'Manufacturing', icon: Factory, color: 'text-gray-600' },
-  { id: 'crm', name: 'CRM', icon: UserCheck, color: 'text-cyan-600' },
-  { id: 'projects', name: 'Projects', icon: FolderKanban, color: 'text-yellow-600' },
-  { id: 'reports', name: 'Reports', icon: BarChart3, color: 'text-red-600' },
-]
+  { id: 'dashboard', name: 'Dashboard', icon: LayoutDashboard, color: 'from-blue-500 to-blue-600' },
+  { id: 'finance', name: 'Finance', icon: DollarSign, color: 'from-emerald-500 to-emerald-600' },
+  { id: 'hr', name: 'Human Resources', icon: Users, color: 'from-purple-500 to-purple-600' },
+  { id: 'inventory', name: 'Inventory', icon: Package, color: 'from-amber-500 to-orange-500' },
+  { id: 'sales', name: 'Sales', icon: ShoppingCart, color: 'from-pink-500 to-rose-500' },
+  { id: 'procurement', name: 'Procurement', icon: Truck, color: 'from-cyan-500 to-blue-500' },
+  { id: 'manufacturing', name: 'Manufacturing', icon: Factory, color: 'from-indigo-500 to-purple-500' },
+  { id: 'crm', name: 'CRM', icon: UserCheck, color: 'from-teal-500 to-cyan-500' },
+  { id: 'projects', name: 'Projects', icon: FolderOpen, color: 'from-violet-500 to-purple-500' },
+  { id: 'reports', name: 'Reports', icon: BarChart3, color: 'from-red-500 to-pink-500' },
+];
 
-const kpiData = [
-  { title: 'Total Revenue', value: '$2,847,392', change: '+12.5%', trend: 'up', icon: DollarSign },
-  { title: 'Active Projects', value: '47', change: '+3', trend: 'up', icon: FolderKanban },
-  { title: 'Inventory Value', value: '$1,234,567', change: '-2.1%', trend: 'down', icon: Package },
-  { title: 'Employee Count', value: '284', change: '+8', trend: 'up', icon: Users },
-]
+const kpiCards = [
+  { 
+    title: 'Total Revenue', 
+    value: '$2.4M', 
+    change: '+12.5%', 
+    icon: DollarSign, 
+    gradient: 'kpi-card-1',
+    trend: 'up'
+  },
+  { 
+    title: 'Active Projects', 
+    value: '47', 
+    change: '+8.2%', 
+    icon: FolderOpen, 
+    gradient: 'kpi-card-2',
+    trend: 'up'
+  },
+  { 
+    title: 'Inventory Value', 
+    value: '$890K', 
+    change: '-2.1%', 
+    icon: Package, 
+    gradient: 'kpi-card-3',
+    trend: 'down'
+  },
+  { 
+    title: 'Total Employees', 
+    value: '324', 
+    change: '+5.7%', 
+    icon: Users, 
+    gradient: 'kpi-card-4',
+    trend: 'up'
+  },
+];
 
 const recentActivities = [
-  { action: 'New purchase order created', user: 'Sarah Chen', time: '2 minutes ago', type: 'procurement' },
-  { action: 'Invoice #INV-2024-001 paid', user: 'System', time: '15 minutes ago', type: 'finance' },
-  { action: 'Project milestone completed', user: 'Mike Johnson', time: '1 hour ago', type: 'project' },
-  { action: 'New employee onboarded', user: 'HR Team', time: '2 hours ago', type: 'hr' },
-  { action: 'Inventory alert: Low stock', user: 'System', time: '3 hours ago', type: 'inventory' },
-]
+  { id: 1, type: 'sale', message: 'New order #12345 received from Acme Corp', time: '2 min ago', icon: ShoppingCart, color: 'text-emerald-600' },
+  { id: 2, type: 'inventory', message: 'Low stock alert: Product SKU-789', time: '15 min ago', icon: AlertCircle, color: 'text-amber-600' },
+  { id: 3, type: 'hr', message: 'New employee onboarding completed', time: '1 hour ago', icon: Users, color: 'text-blue-600' },
+  { id: 4, type: 'finance', message: 'Invoice #INV-2024-001 paid', time: '2 hours ago', icon: DollarSign, color: 'text-purple-600' },
+  { id: 5, type: 'project', message: 'Project milestone achieved: Phase 2', time: '3 hours ago', icon: Target, color: 'text-pink-600' },
+];
+
+const quickActions = [
+  { name: 'New Order', icon: Plus, color: 'from-blue-500 to-purple-600' },
+  { name: 'Add Employee', icon: Users, color: 'from-emerald-500 to-teal-600' },
+  { name: 'Generate Report', icon: BarChart3, color: 'from-amber-500 to-orange-600' },
+  { name: 'Create Project', icon: FolderOpen, color: 'from-pink-500 to-rose-600' },
+];
+
+const projects = [
+  { name: 'ERP Implementation', progress: 85, status: 'On Track', color: 'from-emerald-400 to-emerald-500' },
+  { name: 'Website Redesign', progress: 60, status: 'In Progress', color: 'from-blue-400 to-blue-500' },
+  { name: 'Mobile App Development', progress: 30, status: 'Starting', color: 'from-amber-400 to-orange-500' },
+  { name: 'Data Migration', progress: 95, status: 'Almost Done', color: 'from-purple-400 to-purple-500' },
+];
+
+const systemStatus = [
+  { name: 'Database', status: 'online', uptime: '99.9%', color: 'status-online' },
+  { name: 'API Gateway', status: 'online', uptime: '99.8%', color: 'status-online' },
+  { name: 'File Storage', status: 'warning', uptime: '98.5%', color: 'status-warning' },
+  { name: 'Email Service', status: 'online', uptime: '99.7%', color: 'status-online' },
+];
 
 function App() {
-  const [activeModule, setActiveModule] = useState('dashboard')
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
-
-  const activeModuleData = modules.find(m => m.id === activeModule)
+  const [activeModule, setActiveModule] = useState('dashboard');
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   return (
-    <div className="min-h-screen bg-background flex">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-cyan-50">
       {/* Sidebar */}
-      <div className={`bg-white border-r border-border transition-all duration-300 ${sidebarCollapsed ? 'w-16' : 'w-64'}`}>
+      <div className={`fixed left-0 top-0 h-full sidebar-gradient transition-all duration-300 z-50 ${
+        sidebarCollapsed ? 'w-16' : 'w-64'
+      }`}>
         <div className="p-4">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <LayoutDashboard className="w-5 h-5 text-white" />
-            </div>
+          <div className="flex items-center justify-between mb-8">
             {!sidebarCollapsed && (
-              <div>
-                <h1 className="font-semibold text-lg">Enterprise ERP</h1>
-                <p className="text-xs text-muted-foreground">Business Management</p>
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-gradient-to-br from-white/20 to-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm">
+                  <Briefcase className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h1 className="text-xl font-bold text-white">ERP System</h1>
+                  <p className="text-xs text-white/70">Enterprise Solution</p>
+                </div>
               </div>
             )}
+            <button
+              onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+              className="p-2 rounded-lg bg-white/10 hover:bg-white/20 transition-colors backdrop-blur-sm"
+            >
+              {sidebarCollapsed ? <Menu className="w-5 h-5 text-white" /> : <X className="w-5 h-5 text-white" />}
+            </button>
           </div>
-        </div>
-        
-        <Separator />
-        
-        <nav className="p-2">
-          {modules.map((module) => {
-            const Icon = module.icon
-            const isActive = activeModule === module.id
-            
-            return (
-              <button
-                key={module.id}
-                onClick={() => setActiveModule(module.id)}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-colors ${
-                  isActive 
-                    ? 'bg-primary text-white' 
-                    : 'hover:bg-secondary text-foreground'
-                }`}
-              >
-                <Icon className={`w-5 h-5 ${isActive ? 'text-white' : module.color}`} />
-                {!sidebarCollapsed && (
-                  <span className="font-medium">{module.name}</span>
-                )}
-              </button>
-            )
-          })}
-        </nav>
-        
-        <div className="absolute bottom-4 left-4 right-4">
-          <Separator className="mb-4" />
-          <button
-            onClick={() => setActiveModule('settings')}
-            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left hover:bg-secondary transition-colors"
-          >
-            <Settings className="w-5 h-5 text-gray-600" />
-            {!sidebarCollapsed && (
-              <span className="font-medium">Administration</span>
-            )}
-          </button>
+
+          <nav className="space-y-2">
+            {modules.map((module) => {
+              const Icon = module.icon;
+              return (
+                <button
+                  key={module.id}
+                  onClick={() => setActiveModule(module.id)}
+                  className={`w-full flex items-center space-x-3 p-3 rounded-xl transition-all duration-200 group ${
+                    activeModule === module.id
+                      ? 'bg-white/20 backdrop-blur-sm shadow-lg'
+                      : 'hover:bg-white/10 backdrop-blur-sm'
+                  }`}
+                >
+                  <div className={`p-2 rounded-lg bg-gradient-to-br ${module.color} shadow-lg group-hover:scale-110 transition-transform duration-200`}>
+                    <Icon className="w-5 h-5 text-white" />
+                  </div>
+                  {!sidebarCollapsed && (
+                    <span className="text-white font-medium">{module.name}</span>
+                  )}
+                </button>
+              );
+            })}
+          </nav>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col">
+      <div className={`transition-all duration-300 ${sidebarCollapsed ? 'ml-16' : 'ml-64'}`}>
         {/* Header */}
-        <header className="bg-white border-b border-border px-6 py-4">
+        <header className="header-gradient border-b border-white/20 p-4 sticky top-0 z-40">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-              >
-                <Menu className="w-5 h-5" />
-              </Button>
-              
-              <div className="flex items-center gap-2">
-                {activeModuleData && (
-                  <>
-                    <activeModuleData.icon className={`w-6 h-6 ${activeModuleData.color}`} />
-                    <h2 className="text-xl font-semibold">{activeModuleData.name}</h2>
-                  </>
-                )}
-              </div>
+            <div>
+              <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                {modules.find(m => m.id === activeModule)?.name || 'Dashboard'}
+              </h2>
+              <p className="text-gray-600">Welcome back! Here's what's happening today.</p>
             </div>
             
-            <div className="flex items-center gap-4">
+            <div className="flex items-center space-x-4">
               <div className="relative">
-                <Search className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" />
-                <Input 
-                  placeholder="Search..." 
-                  className="pl-10 w-80"
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  className="pl-10 pr-4 py-2 bg-white/80 backdrop-blur-sm border border-white/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all duration-200"
                 />
               </div>
               
-              <Button variant="ghost" size="sm" className="relative">
-                <Bell className="w-5 h-5" />
-                <Badge className="absolute -top-1 -right-1 w-5 h-5 p-0 flex items-center justify-center text-xs">
-                  3
-                </Badge>
-              </Button>
+              <button className="relative p-2 bg-white/80 backdrop-blur-sm border border-white/30 rounded-xl hover:bg-white/90 transition-all duration-200 hover:scale-105">
+                <Bell className="w-5 h-5 text-gray-600" />
+                <span className="absolute -top-1 -right-1 w-5 h-5 bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs rounded-full flex items-center justify-center shadow-lg">3</span>
+              </button>
               
-              <div className="flex items-center gap-2">
-                <Avatar className="w-8 h-8">
-                  <AvatarImage src="/api/placeholder/32/32" />
-                  <AvatarFallback>JD</AvatarFallback>
-                </Avatar>
-                <div className="hidden md:block">
-                  <p className="text-sm font-medium">John Doe</p>
-                  <p className="text-xs text-muted-foreground">Administrator</p>
+              <button className="flex items-center space-x-2 p-2 bg-white/80 backdrop-blur-sm border border-white/30 rounded-xl hover:bg-white/90 transition-all duration-200 hover:scale-105">
+                <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center shadow-lg">
+                  <User className="w-4 h-4 text-white" />
                 </div>
-                <ChevronDown className="w-4 h-4 text-muted-foreground" />
-              </div>
+                <span className="text-gray-700 font-medium">John Doe</span>
+              </button>
             </div>
           </div>
         </header>
 
-        {/* Content Area */}
-        <main className="flex-1 p-6 overflow-auto">
+        {/* Dashboard Content */}
+        <main className="p-6">
           {activeModule === 'dashboard' && (
             <div className="space-y-6">
               {/* KPI Cards */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {kpiData.map((kpi, index) => {
-                  const Icon = kpi.icon
+                {kpiCards.map((card, index) => {
+                  const Icon = card.icon;
                   return (
-                    <Card key={index} className="hover:shadow-md transition-shadow">
-                      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-muted-foreground">
-                          {kpi.title}
-                        </CardTitle>
-                        <Icon className="w-4 h-4 text-muted-foreground" />
-                      </CardHeader>
-                      <CardContent>
-                        <div className="text-2xl font-bold">{kpi.value}</div>
-                        <div className="flex items-center gap-1 text-xs">
-                          {kpi.trend === 'up' ? (
-                            <TrendingUp className="w-3 h-3 text-green-600" />
-                          ) : (
-                            <TrendingDown className="w-3 h-3 text-red-600" />
-                          )}
-                          <span className={kpi.trend === 'up' ? 'text-green-600' : 'text-red-600'}>
-                            {kpi.change}
-                          </span>
-                          <span className="text-muted-foreground">from last month</span>
+                    <div key={index} className={`${card.gradient} p-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 cursor-pointer`}>
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="p-3 bg-white/20 rounded-xl backdrop-blur-sm">
+                          <Icon className="w-6 h-6 text-white" />
                         </div>
-                      </CardContent>
-                    </Card>
-                  )
+                        <div className={`flex items-center space-x-1 text-white/90 ${
+                          card.trend === 'up' ? 'text-white' : 'text-white/70'
+                        }`}>
+                          <TrendingUp className={`w-4 h-4 ${card.trend === 'down' ? 'rotate-180' : ''}`} />
+                          <span className="text-sm font-medium">{card.change}</span>
+                        </div>
+                      </div>
+                      <div>
+                        <h3 className="text-white/80 text-sm font-medium mb-1">{card.title}</h3>
+                        <p className="text-3xl font-bold text-white">{card.value}</p>
+                      </div>
+                    </div>
+                  );
                 })}
               </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                {/* Recent Activities */}
-                <Card className="lg:col-span-2">
-                  <CardHeader>
-                    <div className="flex items-center justify-between">
-                      <CardTitle>Recent Activities</CardTitle>
-                      <Button variant="outline" size="sm">
-                        <Filter className="w-4 h-4 mr-2" />
-                        Filter
-                      </Button>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-4">
-                      {recentActivities.map((activity, index) => (
-                        <div key={index} className="flex items-start gap-3 p-3 rounded-lg hover:bg-secondary/50 transition-colors">
-                          <div className="w-2 h-2 rounded-full bg-primary mt-2"></div>
-                          <div className="flex-1">
-                            <p className="text-sm font-medium">{activity.action}</p>
-                            <div className="flex items-center gap-2 text-xs text-muted-foreground mt-1">
-                              <span>by {activity.user}</span>
-                              <span>•</span>
-                              <span>{activity.time}</span>
+                {/* Recent Activity */}
+                <div className="lg:col-span-2 gradient-card p-6 rounded-2xl">
+                  <div className="flex items-center justify-between mb-6">
+                    <h3 className="text-xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">Recent Activity</h3>
+                    <button className="text-blue-600 hover:text-blue-700 font-medium transition-colors">View All</button>
+                  </div>
+                  <div className="space-y-4">
+                    {recentActivities.map((activity) => {
+                      const Icon = activity.icon;
+                      return (
+                        <div key={activity.id} className="activity-item p-4 rounded-xl">
+                          <div className="flex items-start space-x-4">
+                            <div className={`p-2 rounded-lg bg-gradient-to-br from-gray-100 to-gray-200 ${activity.color}`}>
+                              <Icon className="w-4 h-4" />
+                            </div>
+                            <div className="flex-1">
+                              <p className="text-gray-800 font-medium">{activity.message}</p>
+                              <p className="text-gray-500 text-sm mt-1">{activity.time}</p>
                             </div>
                           </div>
-                          <Badge variant="secondary" className="text-xs">
-                            {activity.type}
-                          </Badge>
                         </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
+                      );
+                    })}
+                  </div>
+                </div>
 
                 {/* Quick Actions */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Quick Actions</CardTitle>
-                    <CardDescription>Frequently used operations</CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-3">
-                    <Button className="w-full justify-start" variant="outline">
-                      <Plus className="w-4 h-4 mr-2" />
-                      Create Invoice
-                    </Button>
-                    <Button className="w-full justify-start" variant="outline">
-                      <Plus className="w-4 h-4 mr-2" />
-                      Add Employee
-                    </Button>
-                    <Button className="w-full justify-start" variant="outline">
-                      <Plus className="w-4 h-4 mr-2" />
-                      New Purchase Order
-                    </Button>
-                    <Button className="w-full justify-start" variant="outline">
-                      <Plus className="w-4 h-4 mr-2" />
-                      Create Project
-                    </Button>
-                    <Separator />
-                    <Button className="w-full justify-start" variant="outline">
-                      <Download className="w-4 h-4 mr-2" />
-                      Export Reports
-                    </Button>
-                  </CardContent>
-                </Card>
+                <div className="gradient-card p-6 rounded-2xl">
+                  <h3 className="text-xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent mb-6">Quick Actions</h3>
+                  <div className="space-y-3">
+                    {quickActions.map((action, index) => {
+                      const Icon = action.icon;
+                      return (
+                        <button
+                          key={index}
+                          className={`w-full flex items-center space-x-3 p-4 bg-gradient-to-r ${action.color} text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105`}
+                        >
+                          <Icon className="w-5 h-5" />
+                          <span className="font-medium">{action.name}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
               </div>
 
-              {/* Project Status & Performance */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Project Status Overview</CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="space-y-2">
-                      <div className="flex justify-between text-sm">
-                        <span>Website Redesign</span>
-                        <span>75%</span>
+                {/* Project Progress */}
+                <div className="gradient-card p-6 rounded-2xl">
+                  <h3 className="text-xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent mb-6">Project Progress</h3>
+                  <div className="space-y-4">
+                    {projects.map((project, index) => (
+                      <div key={index} className="activity-item p-4 rounded-xl">
+                        <div className="flex items-center justify-between mb-2">
+                          <h4 className="font-medium text-gray-800">{project.name}</h4>
+                          <span className={`px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r ${project.color} text-white shadow-lg`}>
+                            {project.status}
+                          </span>
+                        </div>
+                        <div className="flex items-center space-x-3">
+                          <div className="flex-1 bg-gray-200 rounded-full h-2 overflow-hidden">
+                            <div 
+                              className={`h-full bg-gradient-to-r ${project.color} transition-all duration-500`}
+                              style={{ width: `${project.progress}%` }}
+                            />
+                          </div>
+                          <span className="text-sm font-medium text-gray-600">{project.progress}%</span>
+                        </div>
                       </div>
-                      <Progress value={75} className="h-2" />
-                    </div>
-                    <div className="space-y-2">
-                      <div className="flex justify-between text-sm">
-                        <span>Mobile App Development</span>
-                        <span>45%</span>
-                      </div>
-                      <Progress value={45} className="h-2" />
-                    </div>
-                    <div className="space-y-2">
-                      <div className="flex justify-between text-sm">
-                        <span>ERP Implementation</span>
-                        <span>90%</span>
-                      </div>
-                      <Progress value={90} className="h-2" />
-                    </div>
-                    <div className="space-y-2">
-                      <div className="flex justify-between text-sm">
-                        <span>Data Migration</span>
-                        <span>30%</span>
-                      </div>
-                      <Progress value={30} className="h-2" />
-                    </div>
-                  </CardContent>
-                </Card>
+                    ))}
+                  </div>
+                </div>
 
-                <Card>
-                  <CardHeader>
-                    <CardTitle>System Performance</CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <Activity className="w-4 h-4 text-green-600" />
-                        <span className="text-sm">System Status</span>
+                {/* System Status */}
+                <div className="gradient-card p-6 rounded-2xl">
+                  <h3 className="text-xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent mb-6">System Status</h3>
+                  <div className="space-y-4">
+                    {systemStatus.map((system, index) => (
+                      <div key={index} className="activity-item p-4 rounded-xl">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center space-x-3">
+                            <div className={`w-3 h-3 rounded-full ${
+                              system.status === 'online' ? 'bg-gradient-to-r from-emerald-400 to-emerald-500' :
+                              system.status === 'warning' ? 'bg-gradient-to-r from-amber-400 to-orange-500' :
+                              'bg-gradient-to-r from-red-400 to-red-500'
+                            } shadow-lg`} />
+                            <span className="font-medium text-gray-800">{system.name}</span>
+                          </div>
+                          <div className="text-right">
+                            <span className={`px-3 py-1 rounded-full text-xs font-medium ${system.color} shadow-lg`}>
+                              {system.status.charAt(0).toUpperCase() + system.status.slice(1)}
+                            </span>
+                            <p className="text-xs text-gray-500 mt-1">{system.uptime} uptime</p>
+                          </div>
+                        </div>
                       </div>
-                      <Badge className="bg-green-100 text-green-800">Operational</Badge>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <Clock className="w-4 h-4 text-blue-600" />
-                        <span className="text-sm">Uptime</span>
-                      </div>
-                      <span className="text-sm font-medium">99.9%</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <Calendar className="w-4 h-4 text-purple-600" />
-                        <span className="text-sm">Last Backup</span>
-                      </div>
-                      <span className="text-sm font-medium">2 hours ago</span>
-                    </div>
-                    <Separator />
-                    <div className="text-center">
-                      <Button variant="outline" size="sm">
-                        View Detailed Metrics
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
           )}
 
           {/* Other Module Placeholders */}
           {activeModule !== 'dashboard' && (
-            <div className="text-center py-12">
-              <div className="w-16 h-16 bg-secondary rounded-full flex items-center justify-center mx-auto mb-4">
-                {activeModuleData && <activeModuleData.icon className={`w-8 h-8 ${activeModuleData.color}`} />}
+            <div className="gradient-card p-8 rounded-2xl text-center">
+              <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl">
+                {React.createElement(modules.find(m => m.id === activeModule)?.icon || LayoutDashboard, {
+                  className: "w-10 h-10 text-white"
+                })}
               </div>
-              <h3 className="text-lg font-semibold mb-2">{activeModuleData?.name} Module</h3>
-              <p className="text-muted-foreground mb-6">
-                This module will contain all {activeModuleData?.name.toLowerCase()} related functionality including data management, reporting, and workflow automation.
-              </p>
-              <Button>
-                <Plus className="w-4 h-4 mr-2" />
-                Get Started
-              </Button>
+              <h3 className="text-2xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent mb-2">
+                {modules.find(m => m.id === activeModule)?.name} Module
+              </h3>
+              <p className="text-gray-600 mb-6">This module is under development. Full functionality coming soon!</p>
+              <button className="gradient-button px-6 py-3 rounded-xl font-medium shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                Configure Module
+              </button>
             </div>
           )}
         </main>
       </div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
